@@ -36,6 +36,7 @@ FPGA-Design-Library
 │
 ├── Shift Registers
 │   ├── Universal Shift Register
+│   ├── LFSR
 │   ├── SISO
 │   ├── SIPO
 │   ├── PISO
