@@ -11,15 +11,15 @@ This repository is a continuously growing library of parameterizable RTL buildin
 
 Every module is developed with a strong emphasis on:
 
---Reusability
---Parameterization and scalability
---Synthesizable, FPGA-friendly RTL
---Production-quality coding practices
---Timing-aware design
---Comprehensive documentation
---Self-checking testbenches
---Verification-driven development
---Portability across FPGA families
+- Reusability
+- Parameterization and scalability
+- Synthesizable, FPGA-friendly RTL
+- Production-quality coding practices
+- Timing-aware design
+- Comprehensive documentation
+- Self-checking testbenches
+- Verification-driven development
+- Portability across FPGA families
 
 The long-term goal of this repository is to provide a comprehensive FPGA design library that reflects industry best practices and serves as a reference for both learning and professional FPGA development.
 ---
