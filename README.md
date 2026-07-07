@@ -57,7 +57,7 @@ FPGA-Design-Library
 │   ├── Register File
 │   └── FIFO
 │
-├── FSM
+├── PWM
 │
 ├── UART
 │
