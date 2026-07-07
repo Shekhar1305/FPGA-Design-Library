@@ -5,20 +5,23 @@
 ![FPGA](https://img.shields.io/badge/Target-FPGA-orange)
 ![Status](https://img.shields.io/badge/Status-Active-success)
 
-A collection of reusable, synthesizable and well-documented FPGA IP cores written in VHDL.
+A curated collection of reusable, synthesizable, and production-quality FPGA IP cores written in VHDL.
 
-This repository is intended to serve as a growing library of commonly used digital design components ranging from basic RTL building blocks to complete communication interfaces and DSP architectures.
+This repository is a continuously growing library of parameterizable RTL building blocks, verification environments, and reference designs developed to promote clean, maintainable, and high-performance FPGA design. The library ranges from fundamental digital logic components to complete communication interfaces, DSP architectures, and system-level FPGA infrastructure.
 
-Every module is designed with emphasis on:
+Every module is developed with a strong emphasis on:
 
-- Reusability
-- Parameterization
-- FPGA-friendly RTL
-- Production-quality coding style
-- Comprehensive documentation
-- Self-checking testbenches
-- Verification-driven development
+Reusability
+Parameterization and scalability
+Synthesizable, FPGA-friendly RTL
+Production-quality coding practices
+Timing-aware design
+Comprehensive documentation
+Self-checking testbenches
+Verification-driven development
+Portability across FPGA families
 
+The long-term goal of this repository is to provide a comprehensive FPGA design library that reflects industry best practices and serves as a reference for both learning and professional FPGA development.
 ---
 
 # Repository Structure
