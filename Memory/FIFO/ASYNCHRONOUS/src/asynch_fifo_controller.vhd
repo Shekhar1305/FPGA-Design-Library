@@ -164,9 +164,9 @@ architecture Behavioral of async_fifo_controller is
     -- Gray pointers are transferred across clock domains because only one
     -- bit changes between adjacent pointer values.
     --------------------------------------------------------------------------
-    signal wr_ptr_gray      : unsigned(PTR_WIDTH downto 0);
-    signal rd_ptr_gray      : unsigned(PTR_WIDTH downto 0);
-
+    signal wr_ptr_gray_reg      : unsigned(PTR_WIDTH downto 0);
+    signal rd_ptr_gray_reg      : unsigned(PTR_WIDTH downto 0);
+    
     --------------------------------------------------------------------------
     -- Synchronized Gray Pointers
     --
@@ -292,6 +292,59 @@ begin
     end process rd_pointer_pr;
 
     --------------------------------------------------------------------------
+    -- Binary-to-Gray Conversion Registered Process Write
+    --
+    -- Binary pointers are converted to Gray code before crossing clock
+    -- domains. Since only a single bit changes between adjacent Gray-code
+    -- values, the probability of sampling an invalid intermediate value
+    -- during synchronization is minimized.
+    --------------------------------------------------------------------------
+
+    register_gray_ptr_wr:process(clk_wr)
+    begin
+        if rising_edge(clk_wr) then
+    
+            if rst_wr='1' then
+    
+                wr_ptr_gray_reg <= (others=>'0');
+    
+            elsif wr_domain_en='1' then
+    
+                wr_ptr_gray_reg <=unsigned(binary_to_gray(std_logic_vector(wr_ptr_reg)));
+    
+            end if;
+    
+        end if;
+    end process register_gray_ptr_wr;
+
+    --------------------------------------------------------------------------
+    -- Binary-to-Gray Conversion Registered Process Read
+    --
+    -- Binary pointers are converted to Gray code before crossing clock
+    -- domains. Since only a single bit changes between adjacent Gray-code
+    -- values, the probability of sampling an invalid intermediate value
+    -- during synchronization is minimized.
+    --------------------------------------------------------------------------
+
+    register_gray_ptr_rd:process(clk_rd)
+        begin
+            if rising_edge(clk_rd) then
+        
+                if rst_rd='1' then
+        
+                    rd_ptr_gray_reg <= (others=>'0');
+        
+                elsif wr_domain_en='1' then
+        
+                    rd_ptr_gray_reg <= unsigned(binary_to_gray(std_logic_vector(rd_ptr_reg)));
+        
+                end if;
+        
+            end if;
+        end process register_gray_ptr_rd;
+
+
+    --------------------------------------------------------------------------
     -- Write Allow Logic
     --
     -- Prevents writes whenever the FIFO is Full.
@@ -318,18 +371,6 @@ begin
     rd_ptr_next <= rd_ptr_reg + 1
                    when rd_allow = '1'
                    else rd_ptr_reg;
-
-    --------------------------------------------------------------------------
-    -- Binary-to-Gray Conversion
-    --
-    -- Binary pointers are converted to Gray code before crossing clock
-    -- domains. Since only a single bit changes between adjacent Gray-code
-    -- values, the probability of sampling an invalid intermediate value
-    -- during synchronization is minimized.
-    --------------------------------------------------------------------------
-    wr_ptr_gray <= unsigned(binary_to_gray(std_logic_vector(wr_ptr_reg)));
-
-    rd_ptr_gray <= unsigned(binary_to_gray(std_logic_vector(rd_ptr_reg)));
 
     --------------------------------------------------------------------------
     -- Memory Address Outputs
@@ -369,7 +410,7 @@ begin
         port map
         (
             clk     => clk_wr,
-            sig_in  => std_logic_vector(rd_ptr_gray),
+            sig_in  => std_logic_vector(rd_ptr_gray_reg),
             sig_out => rd_ptr_gray_wr_sync
         );
 
@@ -385,7 +426,7 @@ begin
         port map
         (
             clk     => clk_rd,
-            sig_in  => std_logic_vector(wr_ptr_gray),
+            sig_in  => std_logic_vector(wr_ptr_gray_reg),
             sig_out => wr_ptr_gray_rd_sync
         );
 
