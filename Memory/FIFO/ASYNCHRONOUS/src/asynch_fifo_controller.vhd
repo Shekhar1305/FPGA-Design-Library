@@ -310,7 +310,7 @@ begin
     
             elsif wr_domain_en='1' then
     
-                wr_ptr_gray_reg <=unsigned(binary_to_gray(std_logic_vector(wr_ptr_reg)));
+                wr_ptr_gray_reg <=unsigned(binary_to_gray(std_logic_vector(wr_ptr_next)));
     
             end if;
     
@@ -334,9 +334,9 @@ begin
         
                     rd_ptr_gray_reg <= (others=>'0');
         
-                elsif wr_domain_en='1' then
+                elsif rd_domain_en='1' then
         
-                    rd_ptr_gray_reg <= unsigned(binary_to_gray(std_logic_vector(rd_ptr_reg)));
+                    rd_ptr_gray_reg <= unsigned(binary_to_gray(std_logic_vector(rd_ptr_next)));
         
                 end if;
         
